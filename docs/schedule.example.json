@@ -1,0 +1,19 @@
+{
+  "_note": "EXAMPLE ONLY. Copy the shape into docs/schedule.json and use your own values.",
+  "paused": false,
+  "paused_until": null,
+  "publish_utc_offset": "+00:00",
+  "prep_lead_hours": 12,
+  "slots": [
+    {
+      "day": "Mon",
+      "time": "09:00",
+      "role": "Example role A"
+    },
+    {
+      "day": "Thu",
+      "time": "09:00",
+      "role": "Example role B"
+    }
+  ]
+}

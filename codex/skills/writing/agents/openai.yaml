@@ -1,0 +1,4 @@
+interface:
+  display_name: "Writing"
+  short_description: "Drafts the post."
+  default_prompt: "Use $writing to draft the post from the locked brief and evidence pack."

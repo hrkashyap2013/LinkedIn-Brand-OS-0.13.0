@@ -1,0 +1,4 @@
+interface:
+  display_name: "Visual Learning"
+  short_description: "Offers 3 visual previews and learns your taste."
+  default_prompt: "Use $visual-learning to give me 3 visual previews for this post."

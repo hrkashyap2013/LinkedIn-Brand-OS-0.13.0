@@ -1,0 +1,4 @@
+interface:
+  display_name: "Interviewer"
+  short_description: "Collects your real stories for the Experience Bank."
+  default_prompt: "Use $interviewer to interview me and save my real stories."

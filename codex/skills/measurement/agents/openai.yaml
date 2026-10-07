@@ -1,0 +1,4 @@
+interface:
+  display_name: "Measurement"
+  short_description: "Records 24h/72h/7d results carefully."
+  default_prompt: "Use $measurement to record the 24h/72h/7d measurement for this post."

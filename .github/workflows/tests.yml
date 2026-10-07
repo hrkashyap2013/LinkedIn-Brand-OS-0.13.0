@@ -1,0 +1,31 @@
+name: tests
+
+# Runs the whole test suite on Ubuntu, macOS and Windows with the oldest and a current Python.
+# NOTE: this workflow was written but had not been run when it was released. If a runner image or Python version
+# is no longer offered by GitHub, change the matrix below (the code itself supports Python 3.8 or newer).
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, macos-13, windows-latest]
+        python: ["3.8", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Generated files are up to date
+        run: python scripts/build.py --check
+      - name: No keys or tokens in the repository
+        run: python scripts/check_secrets.py
+      - name: Run all tests
+        run: python tests/run_all.py

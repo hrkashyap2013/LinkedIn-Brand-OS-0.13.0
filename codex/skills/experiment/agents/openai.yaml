@@ -1,0 +1,4 @@
+interface:
+  display_name: "Experiment"
+  short_description: "Keeps experiments valid and honest."
+  default_prompt: "Use $experiment to evaluate this experiment and return its status."

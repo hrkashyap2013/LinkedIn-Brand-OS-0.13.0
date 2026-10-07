@@ -1,0 +1,4 @@
+interface:
+  display_name: "Publishing"
+  short_description: "Assembles the review package; never posts."
+  default_prompt: "Use $publishing to assemble the publishing package for approval."

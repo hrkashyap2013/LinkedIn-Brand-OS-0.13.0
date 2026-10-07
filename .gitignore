@@ -1,0 +1,25 @@
+.env
+.env.*
+*.key
+*.pem
+.DS_Store
+Thumbs.db
+node_modules/
+__pycache__/
+*.pyc
+# Your private data: keep the folders (via their README) but never commit what is inside
+exports/
+runs/*
+!runs/README.md
+drafts/*
+!drafts/README.md
+inbox/*
+!inbox/README.md
+reports/*
+!reports/README.md
+memory/.history/
+memory/.lock
+*.csv
+
+# Your private phone-notification topic and any other local-only settings
+*.local.json

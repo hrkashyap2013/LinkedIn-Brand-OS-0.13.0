@@ -1,0 +1,20 @@
+{
+  "_help": "Your setup choices. Fill them in by running `python3 scripts/setup_wizard.py`, or edit by hand. Contains no secrets: your private phone topic is stored in config.local.json, and provider API keys are never stored here (set them as environment variables).",
+  "setup_completed": false,
+  "language": "",
+  "posting_languages": [],
+  "users": [],
+  "run_tool": "",
+  "image_provider": "",
+  "posting_tool": "",
+  "notifications": {
+    "desktop": false,
+    "phone": false,
+    "phone_server": "https://ntfy.sh"
+  },
+  "humanizer_tier": "strict",
+  "auto_post": {
+    "provider": "publora",
+    "enabled": false
+  }
+}

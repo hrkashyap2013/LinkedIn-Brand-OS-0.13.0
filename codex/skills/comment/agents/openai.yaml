@@ -1,0 +1,4 @@
+interface:
+  display_name: "Comment"
+  short_description: "Drafts comments on other people's posts."
+  default_prompt: "Use $comment to draft a comment on this post."

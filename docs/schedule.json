@@ -1,0 +1,8 @@
+{
+  "_help": "Fill in your publishing slots. day: Mon..Sun. time: HH:MM in the offset below. role: your day role, passed to the agents exactly as written. prep_lead_hours: how many hours BEFORE the publish time preparation should start (it is never guessed). paused: true stops all scheduled runs until you set it back to false.",
+  "paused": false,
+  "paused_until": null,
+  "publish_utc_offset": "",
+  "prep_lead_hours": null,
+  "slots": []
+}

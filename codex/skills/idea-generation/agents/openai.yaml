@@ -1,0 +1,4 @@
+interface:
+  display_name: "Idea Generation"
+  short_description: "Generates exactly three post ideas."
+  default_prompt: "Use $idea-generation to generate exactly three post ideas."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reply"
+  short_description: "Sorts comments and drafts replies you post yourself."
+  default_prompt: "Use $reply to triage these comments and draft replies."

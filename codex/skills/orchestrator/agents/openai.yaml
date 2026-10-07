@@ -1,0 +1,4 @@
+interface:
+  display_name: "Orchestrator"
+  short_description: "Runs the whole LinkedIn workflow, stage by stage."
+  default_prompt: "Use $orchestrator to run the LinkedIn pipeline for my next post."

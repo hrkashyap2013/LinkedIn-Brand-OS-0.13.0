@@ -1,0 +1,4 @@
+interface:
+  display_name: "Repurposer"
+  short_description: "Turns your own content into a LinkedIn draft."
+  default_prompt: "Use $repurposer to turn this content into a LinkedIn post."

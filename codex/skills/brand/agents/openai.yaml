@@ -1,0 +1,4 @@
+interface:
+  display_name: "Brand"
+  short_description: "Your branding team for profile, peers, risk, audience."
+  default_prompt: "Use $brand to review my brand and propose improvements."

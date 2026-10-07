@@ -1,0 +1,4 @@
+interface:
+  display_name: "Brand Intelligence"
+  short_description: "Checks brand, audience and credibility fit."
+  default_prompt: "Use $brand-intelligence to assess brand fit for this idea or draft."

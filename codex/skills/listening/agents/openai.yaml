@@ -1,0 +1,4 @@
+interface:
+  display_name: "Listening"
+  short_description: "Files your input and keeps memory consistent."
+  default_prompt: "Use $listening to file this idea or example."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Idea Selection"
+  short_description: "Locks the chosen idea into a brief."
+  default_prompt: "Use $idea-selection to lock the selected idea into a production brief."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Content Intelligence"
+  short_description: "Maps topics, gaps and opportunities."
+  default_prompt: "Use $content-intelligence to build the content opportunity map."

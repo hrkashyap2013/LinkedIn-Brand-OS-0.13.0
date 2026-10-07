@@ -1,0 +1,15 @@
+{
+  "name": "linkedin-brand-os",
+  "description": "27 LinkedIn specialist agents plus an orchestrator: ideas, research, writing, humanizing, visuals, quality checks, a ready-to-paste package, replies and comments, results learning. Nothing posts for you.",
+  "version": "0.13.0",
+  "license": "MIT",
+  "keywords": [
+    "linkedin",
+    "content",
+    "agents",
+    "writing",
+    "social-media"
+  ],
+  "agents": "./.claude/agents",
+  "commands": "./.claude/commands"
+}

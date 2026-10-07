@@ -1,0 +1,4 @@
+interface:
+  display_name: "Visual Strategy"
+  short_description: "Plans how the visual explains the idea."
+  default_prompt: "Use $visual-strategy to produce the visual blueprint for this post."

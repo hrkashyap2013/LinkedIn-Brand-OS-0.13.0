@@ -1,0 +1,4 @@
+interface:
+  display_name: "Profile Optimizer"
+  short_description: "Proposes clearer, truthful profile wording."
+  default_prompt: "Use $profile-optimizer to review my LinkedIn profile text."

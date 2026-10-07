@@ -1,0 +1,4 @@
+interface:
+  display_name: "Posting"
+  short_description: "Prepares the ready-to-paste package; never posts."
+  default_prompt: "Use $posting to prepare the approved package for pasting."

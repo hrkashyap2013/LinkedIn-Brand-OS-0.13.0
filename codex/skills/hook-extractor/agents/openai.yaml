@@ -1,0 +1,4 @@
+interface:
+  display_name: "Hook Extractor"
+  short_description: "Names the hook shape in a post and adapts it to your material."
+  default_prompt: "Use $hook-extractor to analyse the hook of this post."

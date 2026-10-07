@@ -1,0 +1,4 @@
+interface:
+  display_name: "Anti-Repetition"
+  short_description: "Checks freshness against memory."
+  default_prompt: "Use $anti-repetition to check this idea or asset for repetition."

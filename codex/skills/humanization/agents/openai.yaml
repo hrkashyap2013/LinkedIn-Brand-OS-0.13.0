@@ -1,0 +1,4 @@
+interface:
+  display_name: "Humanization"
+  short_description: "Makes drafts clear, human and credible."
+  default_prompt: "Use $humanization to refine this draft without changing its supported claims."

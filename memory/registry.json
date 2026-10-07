@@ -1,0 +1,63 @@
+{
+  "_help": "Who may update which register. Listening keeps this file; changing it is a material change and goes through Governance and the Change Register.",
+  "version": 1,
+  "registers": {
+    "content-memory": [
+      "content-intelligence",
+      "anti-repetition",
+      "learning"
+    ],
+    "visual-memory": [
+      "visual-strategy",
+      "visual-learning",
+      "visual-qa",
+      "learning"
+    ],
+    "experiment-register": [
+      "experiment",
+      "measurement",
+      "learning"
+    ],
+    "change-register": [
+      "governance",
+      "strategy-learning"
+    ],
+    "learning-register": [
+      "learning",
+      "strategy-learning"
+    ],
+    "ideas-and-examples": [
+      "listening"
+    ],
+    "experience-bank": [
+      "listening",
+      "interviewer"
+    ],
+    "post-tracker": [
+      "orchestrator",
+      "publishing",
+      "posting"
+    ],
+    "evidence-library": [
+      "research",
+      "listening"
+    ],
+    "approval-log": [
+      "governance",
+      "orchestrator"
+    ],
+    "profile-proposals": [
+      "brand",
+      "listening"
+    ]
+  },
+  "profile": {
+    "propose": [
+      "brand",
+      "listening"
+    ],
+    "apply": [
+      "listening"
+    ]
+  }
+}

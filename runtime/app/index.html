@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LinkedIn Brand Agents</title>
+<link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+<header>
+  <h1>LinkedIn Brand Agents</h1>
+  <span id="badge-tool" class="badge"></span>
+  <span id="badge-demo" class="badge demo" hidden>DEMO MODE: canned sample answers, not a real AI</span>
+  <span class="spacer"></span>
+  <button id="btn-testai" class="small">Test my AI tool</button>
+</header>
+<div id="banner" class="banner" hidden></div>
+<div id="progress" class="progress" hidden><span id="progress-text"></span></div>
+<nav id="tabs">
+  <button data-tab="pipeline" class="active">Pipeline</button>
+  <button data-tab="chat">Chat</button>
+  <button data-tab="runs">Runs and reminders</button>
+  <button data-tab="metrics">Metrics</button>
+  <button data-tab="help">Help</button>
+</nav>
+<main>
+  <section id="tab-pipeline" class="tab">
+    <aside id="side">
+      <div class="row"><select id="post-select" aria-label="Choose a post"></select></div>
+      <div class="row"><button id="btn-newpost">New post</button></div>
+      <ol id="steps" class="steps"></ol>
+    </aside>
+    <div id="stage"></div>
+  </section>
+  <section id="tab-chat" class="tab" hidden>
+    <div id="chatlog" class="chatlog" aria-live="polite"></div>
+    <div class="chatbox">
+      <div id="menu" class="menu" role="listbox" hidden></div>
+      <textarea id="chatin" rows="3" placeholder="Ask anything. Type @ to pick an agent (for example @governance), or / for a command."></textarea>
+      <div class="row">
+        <button id="chatsend" class="primary">Send</button>
+        <button id="chatnew" class="small">New chat</button>
+        <span class="hint">Chat answers are text only. Use the Pipeline tab to make a post.</span>
+      </div>
+    </div>
+  </section>
+  <section id="tab-runs" class="tab" hidden></section>
+  <section id="tab-metrics" class="tab" hidden></section>
+  <section id="tab-help" class="tab" hidden></section>
+</main>
+<script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research"
+  short_description: "Builds a credible evidence pack."
+  default_prompt: "Use $research to build an evidence pack for the locked claim."

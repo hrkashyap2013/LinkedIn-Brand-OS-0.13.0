@@ -1,0 +1,4 @@
+interface:
+  display_name: "Visual QA"
+  short_description: "Runs visual QA and the quality gate."
+  default_prompt: "Use $visual-qa to run visual QA and the quality gate on this visual."

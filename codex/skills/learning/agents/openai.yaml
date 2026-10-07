@@ -1,0 +1,4 @@
+interface:
+  display_name: "Learning"
+  short_description: "Records learning and updates memory."
+  default_prompt: "Use $learning to record the learning and update the memory registers."

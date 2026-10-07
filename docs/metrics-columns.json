@@ -1,0 +1,7 @@
+{
+  "_help": "Optional. Map each field to the exact column header in YOUR analytics CSV. Leave a value blank to use automatic matching. Never put numbers here.",
+  "post_id": "", "date": "", "title": "", "impressions": "", "members_reached": "",
+  "reactions": "", "comments": "", "reposts": "", "saves": "", "sends": "",
+  "profile_views": "", "followers_gained": "", "link_clicks": "",
+  "search_appearances": "", "out_of_network_pct": ""
+}

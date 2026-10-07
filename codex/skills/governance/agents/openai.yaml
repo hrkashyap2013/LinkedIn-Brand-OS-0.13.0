@@ -1,0 +1,4 @@
+interface:
+  display_name: "Governance"
+  short_description: "Enforces rules, locks and approval gates."
+  default_prompt: "Use $governance to audit this work and return PROCEED, HOLD, REVISE, or STOP."

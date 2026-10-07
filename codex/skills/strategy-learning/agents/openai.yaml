@@ -1,0 +1,4 @@
+interface:
+  display_name: "Strategy Learning"
+  short_description: "Runs weekly and monthly strategy reviews."
+  default_prompt: "Use $strategy-learning to run the weekly or monthly strategy review."
