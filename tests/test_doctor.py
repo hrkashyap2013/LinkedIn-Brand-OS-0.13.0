@@ -51,6 +51,7 @@ class Doctor(unittest.TestCase):
         jdump({"setup_completed": False}, os.path.join(self.ws, "docs", "settings.json"))
         self.assertEqual(by_title(doctor.run_checks(self.ws), "Setup questions")["status"], "WARN")
 
+    @unittest.skipIf(os.name == "nt", "uses a POSIX shell script as the stand-in tool")
     def test_a_found_tool_is_ok_and_a_custom_command_is_noted(self):
         stub = os.path.join(self.ws, "claude")
         wtext(stub, "#!/bin/sh\necho 'claude 9.9.9'\n")
@@ -62,6 +63,21 @@ class Doctor(unittest.TestCase):
         os.environ["CLAUDE_BIN"] = "nope"
         os.environ["LBA_AI_CMD"] = json.dumps([sys.executable, "-c", "print(1)"])
         self.assertEqual(by_title(doctor.run_checks(self.ws), "AI tool")["status"], "INFO")
+
+    def test_a_windows_batch_shim_is_a_warning_with_a_fix(self):
+        import chat_core
+        saved = chat_core.is_batch_shim
+        chat_core.is_batch_shim = lambda exe, system=None: True
+        try:
+            stub = os.path.join(self.ws, "claude")
+            wtext(stub, "#!/bin/sh\necho 'claude 9.9.9'\n")
+            os.chmod(stub, 0o755)
+            os.environ["CLAUDE_BIN"] = stub
+            r = by_title(doctor.run_checks(self.ws), "AI tool")
+        finally:
+            chat_core.is_batch_shim = saved
+        self.assertEqual(r["status"], "WARN")
+        self.assertIn("LBA_ALLOW_CMD_SHIM", r["fix"])
 
     def test_no_ai_request_is_made_unless_asked(self):
         marker = os.path.join(self.ws, "called.txt")

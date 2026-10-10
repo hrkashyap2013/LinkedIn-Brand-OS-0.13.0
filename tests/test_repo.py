@@ -165,7 +165,8 @@ class Privacy(unittest.TestCase):
     def test_no_personal_details_or_secrets(self):
         bad = re.compile(r"(?i)helly|crystal phoenix|hrkashyap|kashyap|api[_-]?key\s*[:=]\s*\S{12,}|sk-[A-Za-z0-9]{20,}")
         for p in glob.glob(os.path.join(ROOT, "**", "*"), recursive=True):
-            if os.path.isdir(p) or "/.git/" in p or p.endswith((".png", ".jpg", ".zip", ".pyc")) or "/tests/" in p:
+            q = p.replace(os.sep, "/")                                   # Windows paths use backslashes
+            if os.path.isdir(p) or "/.git/" in q or q.endswith((".png", ".jpg", ".zip", ".pyc")) or "/tests/" in q:
                 continue
             try:
                 t = open(p, encoding="utf-8").read()

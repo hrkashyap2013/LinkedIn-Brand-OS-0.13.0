@@ -82,7 +82,17 @@ def run_checks(ws, test_ai=False):
 
     tool = (s.get("run_tool") or "claude").lower()
     exe = shutil.which(os.environ.get("CODEX_BIN", "codex") if tool == "codex" else os.environ.get("CLAUDE_BIN", "claude"))
+    shim = False
     if exe:
+        try:
+            import chat_core
+            shim = chat_core.is_batch_shim(exe)
+        except Exception:
+            shim = False
+    if exe and shim:
+        out.append(item("WARN", "AI tool (%s)" % tool, "%s is a Windows batch shim (.cmd or .bat); the apps refuse these by default because cmd.exe can misread special characters." % exe,
+                        "Install the native %s (an .exe) or set %s to its path. To accept the risk, set LBA_ALLOW_CMD_SHIM=1." % ("Codex" if tool == "codex" else "Claude Code", "CODEX_BIN" if tool == "codex" else "CLAUDE_BIN")))
+    elif exe:
         out.append(item("OK", "AI tool (%s)" % tool, "%s %s" % (exe, tool_version(exe))))
     elif os.environ.get("LBA_AI_CMD"):
         out.append(item("INFO", "AI tool", "A custom command is set in LBA_AI_CMD (used by the demo and tests)."))

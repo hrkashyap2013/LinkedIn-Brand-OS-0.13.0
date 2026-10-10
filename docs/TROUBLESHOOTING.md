@@ -62,6 +62,8 @@
 
 ## Windows notes
 
+**"... is a Windows batch shim".** If Claude Code or Codex was installed through npm, Windows starts it through a `.cmd` file and `cmd.exe`, which can misread characters such as `&`, `|` and `%` in your request. The apps refuse this by default. Install the native version (an `.exe`) or set `CLAUDE_BIN` (or `CODEX_BIN`) to the `.exe`. If you understand the risk, set `LBA_ALLOW_CMD_SHIM=1`.
+
 Use `python` instead of `python3`, and PowerShell commands from the README. If scripts are blocked, run them with `-ExecutionPolicy Bypass` as shown. The installer needs no administrator rights.
 
 ## FAQ

@@ -109,6 +109,7 @@ class Runner(unittest.TestCase):
             cc.run_ai(self.ws, "hello")
         self.assertIn("codex", str(cm.exception))
 
+    @unittest.skipIf(os.name == "nt", "uses a POSIX script as the stand-in tool")
     def test_real_tool_command_lines_are_built_the_documented_way(self):
         os.environ.pop("LBA_AI_CMD", None)
         stub = os.path.join(self.ws, "claude")
@@ -123,6 +124,29 @@ class Runner(unittest.TestCase):
         os.environ["CODEX_BIN"] = stub
         jdump({"run_tool": "codex"}, os.path.join(self.ws, "docs", "settings.json"))
         self.assertEqual(cc.ai_command(self.ws, "P")[0], [stub, "exec", "P"])
+
+    def test_batch_shims_are_recognised_only_on_windows(self):
+        self.assertTrue(cc.is_batch_shim("C:\\npm\\claude.cmd", "Windows"))
+        self.assertTrue(cc.is_batch_shim("C:\\npm\\codex.BAT", "Windows"))
+        self.assertFalse(cc.is_batch_shim("C:\\bin\\claude.exe", "Windows"))
+        self.assertFalse(cc.is_batch_shim("/usr/local/bin/claude", "Linux"))
+        self.assertFalse(cc.is_batch_shim("/opt/x/claude.cmd", "Darwin"))
+
+    @unittest.skipUnless(os.name == "nt", "a .cmd shim only matters on Windows")
+    def test_on_windows_a_cmd_shim_is_refused_unless_the_owner_allows_it(self):
+        os.environ.pop("LBA_AI_CMD", None)
+        stub = os.path.join(self.ws, "claude.cmd")
+        wtext(stub, "@echo off\r\n")
+        os.environ["CLAUDE_BIN"] = stub
+        with self.assertRaises(cc.AIError) as cm:
+            cc.ai_command(self.ws, "P & whoami")
+        self.assertIn("batch shim", str(cm.exception))
+        self.assertIn("LBA_ALLOW_CMD_SHIM", str(cm.exception))
+        os.environ["LBA_ALLOW_CMD_SHIM"] = "1"
+        try:
+            self.assertEqual(cc.ai_command(self.ws, "P")[0][1:], ["-p", "P"])
+        finally:
+            os.environ.pop("LBA_ALLOW_CMD_SHIM", None)
 
     @unittest.skipIf(os.name == "nt", "uses a POSIX shell script as the stand-in tool")
     def test_the_tool_gets_the_prompt_as_an_argument_and_no_terminal_input(self):

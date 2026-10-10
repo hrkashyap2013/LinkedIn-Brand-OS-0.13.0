@@ -13,6 +13,7 @@ Needs Python 3.8+ and nothing else.
 """
 import json
 import os
+import platform
 import re
 import shlex
 import shutil
@@ -74,6 +75,22 @@ def _split(text):
     return shlex.split(text, posix=(os.name != "nt"))
 
 
+def is_batch_shim(exe, system=None):
+    """On Windows a .cmd or .bat file is run through cmd.exe, which reads characters like & | % ^ in an argument as commands.
+    A prompt can contain text pasted from outside, so such shims are refused unless the owner allows them."""
+    return (system or platform.system()) == "Windows" and str(exe).lower().endswith((".cmd", ".bat"))
+
+
+SHIM_MESSAGE = ("'%s' is a Windows batch shim (.cmd or .bat). Windows would pass your request through cmd.exe, which can misread special characters. "
+                "Install the native Claude Code or Codex (an .exe), or set %s to the path of the .exe. If you understand the risk and want to go on anyway, "
+                "set LBA_ALLOW_CMD_SHIM=1.")
+
+
+def _check_shim(exe, var):
+    if is_batch_shim(exe) and os.environ.get("LBA_ALLOW_CMD_SHIM") != "1":
+        raise AIError(SHIM_MESSAGE % (os.path.basename(exe), var))
+
+
 def ai_command(ws, prompt):
     """Return (argv, stdin_text). LBA_AI_CMD (used by the demo and the tests) takes the prompt on standard input."""
     custom = os.environ.get("LBA_AI_CMD", "").strip()
@@ -86,11 +103,13 @@ def ai_command(ws, prompt):
         extra = _split(os.environ.get("CODEX_EXTRA_ARGS", ""))
         if not exe:
             raise AIError("The 'codex' command was not found on PATH. Install Codex, or start the app with --demo to try it without an AI.")
+        _check_shim(exe, "CODEX_BIN")
         return [exe, "exec", prompt] + extra, None
     exe = shutil.which(os.environ.get("CLAUDE_BIN", "claude"))
     extra = _split(os.environ.get("CLAUDE_EXTRA_ARGS", ""))
     if not exe:
         raise AIError("The 'claude' command was not found on PATH. Install Claude Code, or start the app with --demo to try it without an AI.")
+    _check_shim(exe, "CLAUDE_BIN")
     return [exe, "-p", prompt] + extra, None
 
 
