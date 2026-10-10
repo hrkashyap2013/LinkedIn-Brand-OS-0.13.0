@@ -1,8 +1,8 @@
 name: tests
 
-# Runs the whole test suite on Ubuntu, macOS and Windows with the oldest and a current Python.
-# NOTE: this workflow was written but had not been run when it was released. If a runner image or Python version
-# is no longer offered by GitHub, change the matrix below (the code itself supports Python 3.8 or newer).
+# Runs the whole test suite on Ubuntu, macOS and Windows. The oldest supported Python (3.8) runs on Ubuntu and Windows;
+# macOS runs on the current runner with a current Python (Python 3.8 has no build for the current Apple-silicon runners).
+# If GitHub retires a runner image, change the matrix below (the code itself supports Python 3.8 or newer).
 on:
   push:
   pull_request:
@@ -13,8 +13,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04, macos-13, windows-latest]
-        python: ["3.8", "3.12"]
+        include:
+          - {os: ubuntu-22.04, python: "3.8"}
+          - {os: ubuntu-22.04, python: "3.12"}
+          - {os: windows-latest, python: "3.8"}
+          - {os: windows-latest, python: "3.12"}
+          - {os: macos-latest, python: "3.12"}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

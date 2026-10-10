@@ -174,5 +174,34 @@ class Privacy(unittest.TestCase):
             self.assertIsNone(bad.search(t), p)
 
 
+class LineEndings(unittest.TestCase):
+    def test_a_crlf_checkout_is_not_reported_as_out_of_date(self):
+        """On Windows git may check files out with CRLF; the generated-files check must not call that a difference."""
+        tmp = tempfile.mkdtemp()
+        try:
+            dst = os.path.join(tmp, "repo")
+            shutil.copytree(ROOT, dst, ignore=shutil.ignore_patterns(".git", "__pycache__", "node_modules"))
+            converted = 0
+            for dirpath, _dirs, files in os.walk(dst):
+                for f in files:
+                    if f.endswith((".md", ".json", ".yml", ".txt", ".py", ".yaml")) and not f.endswith(".sh"):
+                        p = os.path.join(dirpath, f)
+                        with open(p, "rb") as fh:
+                            data = fh.read()
+                        with open(p, "wb") as fh:
+                            fh.write(data.replace(b"\r\n", b"\n").replace(b"\n", b"\r\n"))
+                        converted += 1
+            self.assertGreater(converted, 100)
+            r = subprocess.run([sys.executable, os.path.join(dst, "scripts", "build.py"), "--check"], capture_output=True, text=True)
+            self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+    def test_gitattributes_forces_lf_except_for_powershell(self):
+        text = read(".gitattributes")
+        self.assertIn("* text=auto eol=lf", text)
+        self.assertIn("*.ps1 text eol=crlf", text)
+
+
 if __name__ == "__main__":
     unittest.main()

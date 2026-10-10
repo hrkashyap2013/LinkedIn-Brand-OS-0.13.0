@@ -219,6 +219,14 @@ class Cli(unittest.TestCase):
         self.assertEqual(r.returncode, 1)
         self.assertIn("levels", r.stdout)
 
+    def test_an_empty_browser_setting_means_no_browser_even_if_chrome_is_installed(self):
+        saved = os.environ.get("LBA_BROWSER")
+        os.environ["LBA_BROWSER"] = ""
+        try:
+            self.assertIsNone(ve.find_browser())
+        finally:
+            os.environ.pop("LBA_BROWSER") if saved is None else os.environ.__setitem__("LBA_BROWSER", saved)
+
     def test_no_browser_still_gives_svg_and_a_clear_note(self):
         r = cli("--workspace", self.tmp, "render", "--spec", self.spec(), "--out", self.tmp + "/o", "--png", "--pdf",
                 env={"PATH": "/nonexistent", "LBA_BROWSER": ""})

@@ -1070,6 +1070,8 @@ def check_spec(spec, fmt="portrait", theme=None):
 
 def find_browser():
     env = os.environ.get("LBA_BROWSER")
+    if env is not None and not env.strip():
+        return None                                  # set to empty on purpose: do not look for a browser at all
     if env and os.path.exists(env):
         return env
     system = platform.system()

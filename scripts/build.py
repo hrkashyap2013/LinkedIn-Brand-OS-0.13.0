@@ -331,12 +331,12 @@ def snapshot():
     for g in GENERATED:
         p = os.path.join(ROOT, g)
         if os.path.isfile(p):
-            out[g] = open(p, "rb").read()
+            out[g] = open(p, "rb").read().replace(b"\r\n", b"\n")       # a CRLF checkout (Windows) is not a real difference
         elif os.path.isdir(p):
             for d, _, fs in os.walk(p):
                 for f in fs:
                     fp = os.path.join(d, f)
-                    out[os.path.relpath(fp, ROOT)] = open(fp, "rb").read()
+                    out[os.path.relpath(fp, ROOT)] = open(fp, "rb").read().replace(b"\r\n", b"\n")
     return out
 
 

@@ -16,7 +16,7 @@
 
 ## Visuals
 
-**I only get SVG, no PNG or PDF.** No Chrome or Edge was found. Install one, or set `LBA_BROWSER` to the full path of a Chromium-based browser (`python3 scripts/visual_engine.py browser` shows what was found), then render again. Meanwhile the `.html` file next to the SVG opens in any browser; use Print, Save as PDF.
+**I only get SVG, no PNG or PDF.** No Chrome or Edge was found. Install one, or set `LBA_BROWSER` to the full path of a Chromium-based browser (set it to an empty value to switch browser rendering off on purpose) (`python3 scripts/visual_engine.py browser` shows what was found), then render again. Meanwhile the `.html` file next to the SVG opens in any browser; use Print, Save as PDF.
 
 **A warning says text is too small or too long.** The generator never shrinks type below 28 px and never lets text spill out. Use fewer words, or fewer items, or split into a carousel.
 

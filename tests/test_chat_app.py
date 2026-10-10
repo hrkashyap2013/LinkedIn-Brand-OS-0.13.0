@@ -54,7 +54,7 @@ class Client:
     def job(self, path, body):
         st, j = self.api("POST", path, body)
         assert st == 200, j
-        for _ in range(200):
+        for _ in range(1200):                                  # up to 60 seconds: a machine with a real Chrome renders slowly
             st, s = self.api("GET", "/api/job/" + j["job"])
             if s["state"] != "running":
                 return s
