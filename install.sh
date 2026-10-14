@@ -256,8 +256,9 @@ if [ "$MODE" = "project" ]; then
     say "  1. Run the setup questions:  python3 scripts/setup_wizard.py   then fill in $WORKDIR/docs/brand-profile.md"
   fi
   say "  2. cd \"$WORKDIR\""
-  [ "$DO_CLAUDE" -eq 1 ] && say "  3. Run: claude    then type /auto  (or /scheduled, or /next one stage at a time)"
-  [ "$DO_CODEX" -eq 1 ] && say "  3. Run: codex     then ask: Use \$linkedin-orchestrator to run my next post"
+  STEP3="  3."
+  if [ "$DO_CLAUDE" -eq 1 ]; then say "$STEP3 Run: claude    then type /auto  (or /scheduled, or /next one stage at a time)"; STEP3="     or:"; fi
+  if [ "$DO_CODEX" -eq 1 ]; then say "$STEP3 codex     then ask: Use \$orchestrator to run my next post"; fi
   say "  4. Optional automatic weekly preparation (after step 1):"
   say "       bash scripts/register-schedule.sh --lead-hours N     (Windows: scripts\\register-schedule.ps1 -LeadHours N)"
 else
@@ -275,6 +276,8 @@ if [ "$AUTO" -eq 1 ]; then
     DOC_RC=0
     DOC_OUT="$(PYTHONDONTWRITEBYTECODE=1 "$PY" "$WORKDIR/scripts/doctor.py" --workspace "$WORKDIR" 2>&1)" || DOC_RC=$?
     printf '%s\n' "$DOC_OUT"
+    say ""
+    say "The install itself succeeded. The doctor lines above check your SETUP, not the install: on a fresh install a blank brand profile, unanswered setup questions, or a missing AI tool or browser are normal. Each line says how to fix it."
     if [ "$DOC_RC" -ne 0 ]; then DOC_STATE="problems"
     elif printf '%s\n' "$DOC_OUT" | grep -q '^WARN'; then DOC_STATE="attention"
     else DOC_STATE="ok"; fi

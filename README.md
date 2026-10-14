@@ -8,6 +8,8 @@ A blank, open template that runs a LinkedIn brand workflow with AI agents: ideas
 
 **The easy way.** Open Claude Code or Codex and say: `install <the URL of this repository>`. The assistant follows [`INSTALL.md`](INSTALL.md): it installs everything into `~/linkedin`, asks you a few setup questions in the chat, and tells you what to do next.
 
+**Where "install <URL>" works.** It works in tools that run on your own computer: Claude Code and the Codex CLI. In an ordinary web chat, the assistant's code tool runs in a temporary sandbox, so it cannot install anything on your computer (anything it installs there disappears). The assistant should say so and give you the commands to run yourself, which are in the next paragraph.
+
 **By hand.** Needs Python 3.8 or newer (and Chrome or Edge for PNG and PDF visuals; not needed to try things).
 
 - macOS / Linux / WSL: `bash install.sh --project ~/linkedin --tool all`

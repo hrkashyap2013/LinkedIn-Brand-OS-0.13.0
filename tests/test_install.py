@@ -1,6 +1,7 @@
 """Installer tests (bash always when available; PowerShell when pwsh is on PATH or $PWSH)."""
 import glob
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -91,6 +92,7 @@ class BashInstaller(unittest.TestCase):
         self.assertIn("workspace: " + ws, r.stdout)
         self.assertIn("tools: all", r.stdout)
         self.assertIn("Doctor (checks your setup", r.stdout)               # the doctor ran and its result is shown
+        self.assertIn("The install itself succeeded. The doctor lines above check your SETUP", r.stdout)
         self.assertIn("Workspace folders: docs, memory and scripts are present", r.stdout)
         self.assertRegex(r.stdout, r"doctor: (ok|attention|problems)")
         self.assertLess(r.stdout.index("Doctor (checks"), r.stdout.index("AUTO-INSTALL-RESULT"))
@@ -103,6 +105,19 @@ class BashInstaller(unittest.TestCase):
         self.assertFalse(os.path.exists(os.path.join(ws, "scripts", "__pycache__")))
         again = subprocess.run([BASH, os.path.join(ROOT, "install.sh"), "--auto"], capture_output=True, text=True, env=env, stdin=subprocess.DEVNULL)
         self.assertIn("0 updated", again.stdout)
+
+    def test_the_next_steps_name_real_skills_and_number_each_step_once(self):
+        import re
+        r = subprocess.run([BASH, os.path.join(ROOT, "install.sh"), "--auto"], capture_output=True, text=True, env=self.env, stdin=subprocess.DEVNULL)
+        self.assertEqual(r.returncode, 0, r.stderr)
+        block = r.stdout.split("Next steps:")[1].split("Try it without")[0]
+        self.assertNotIn("linkedin-orchestrator", r.stdout)
+        for name in re.findall(r"Use \$([a-z-]+)", block):
+            self.assertTrue(os.path.isdir(os.path.join(ROOT, "codex", "skills", name)), "the next steps name a skill that does not exist: " + name)
+        self.assertIn("Use $orchestrator", block)
+        numbers = re.findall(r"^\s+(\d)\. ", block, re.M)
+        self.assertEqual(numbers, sorted(set(numbers)), numbers)                  # no step number appears twice
+        self.assertIn("     or: codex", block)
 
     def test_a_failing_doctor_never_fails_the_install(self):
         env = dict(self.env, CLAUDE_BIN="definitely-not-installed", CODEX_BIN="definitely-not-installed")
@@ -166,6 +181,10 @@ class PowerShellInstaller(unittest.TestCase):
                 self.assertEqual(r2.returncode, 0, r2.stdout + r2.stderr)
                 self.assertIn("AUTO-INSTALL-RESULT", r2.stdout)
                 self.assertIn("Doctor (checks your setup", r2.stdout)
+                self.assertNotIn("linkedin-orchestrator", r2.stdout)
+                self.assertIn("Use $orchestrator", r2.stdout)
+                steps = re.findall(r"^\s+(\d)\. ", r2.stdout.split("Next steps:")[1].split("Try it without")[0], re.M)
+                self.assertEqual(steps, sorted(set(steps)), steps)
                 self.assertRegex(r2.stdout, r"doctor: (ok|attention|problems)")
                 self.assertTrue(os.path.exists(os.path.join(auto_home, "linkedin", "scripts", "chat_app.py")))
                 self.assertEqual(count(os.path.join(auto_home, ".codex", "skills")), SKILL_COUNT)

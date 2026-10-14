@@ -44,6 +44,17 @@ class Docs(unittest.TestCase):
         self.assertIn("AUTO-INSTALL-RESULT", rtext(os.path.join(ROOT, "install.ps1")))
         self.assertIn("INSTALL.md", rtext(os.path.join(ROOT, "README.md")).split("## Install")[0])      # AI assistants find it at the top
 
+    def test_the_install_guide_starts_by_checking_it_is_on_the_owners_computer(self):
+        guide = rtext(os.path.join(ROOT, "INSTALL.md"))
+        self.assertLess(guide.index("## Step 0. Check where you are running"), guide.index("## Step 1."))
+        step0 = guide.split("## Step 0.")[1].split("## Step 1.")[0]
+        for phrase in ("temporary sandbox", "Stop here", "Claude Code", "owner's own computer", "paste into a terminal"):
+            self.assertIn(phrase, step0)
+        self.assertIn("unless Step 0 showed", guide)
+        readme = rtext(os.path.join(ROOT, "README.md"))
+        self.assertIn("temporary sandbox", readme)
+        self.assertLess(readme.index("Where \"install <URL>\" works"), readme.index("**By hand.**"))
+
     def test_the_install_guide_example_answers_are_accepted_by_the_wizard(self):
         import json
         import shutil

@@ -251,8 +251,9 @@ if ($Mode -eq 'project') {
     Write-Host "  1. Run the setup questions:  python scripts\setup_wizard.py   then fill in $WorkDir\docs\brand-profile.md"
   }
   Write-Host "  2. cd `"$WorkDir`""
-  if ($DoClaude) { Write-Host "  3. Run: claude    then type /auto  (or /scheduled, or /next one stage at a time)" }
-  if ($DoCodex)  { Write-Host "  3. Run: codex     then ask: Use `$linkedin-orchestrator to run my next post" }
+  $step3 = "  3."
+  if ($DoClaude) { Write-Host "$step3 Run: claude    then type /auto  (or /scheduled, or /next one stage at a time)"; $step3 = "     or:" }
+  if ($DoCodex)  { Write-Host "$step3 codex     then ask: Use `$orchestrator to run my next post" }
   Write-Host "  4. Optional automatic weekly preparation (after step 1):"
   Write-Host "       powershell -ExecutionPolicy Bypass -File scripts\register-schedule.ps1 -LeadHours N"
 } else {
@@ -273,6 +274,8 @@ if ($Auto) {
       $docOut = & $pyd.Source $DoctorPath --workspace $WorkDir 2>&1 | Out-String
       $docRc = $LASTEXITCODE
       Write-Host $docOut.TrimEnd()
+      Write-Host ""
+      Write-Host "The install itself succeeded. The doctor lines above check your SETUP, not the install: on a fresh install a blank brand profile, unanswered setup questions, or a missing AI tool or browser are normal. Each line says how to fix it."
       if ($docRc -ne 0) { $DocState = 'problems' } elseif ($docOut -match '(?m)^WARN') { $DocState = 'attention' } else { $DocState = 'ok' }
     } else { Write-Host "Python was not found, so the doctor could not run."; $DocState = 'skipped' }
   }
